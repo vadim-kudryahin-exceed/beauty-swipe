@@ -7,15 +7,23 @@ const Product = ({ currentProduct }) => {
   const isProductNotFetched = !currentProduct;
   return (
     <Card className={`product`} elevation={3}>
-      <div className={`product-img ${isProductNotFetched && Classes.SKELETON}`}>
-        <img src={imageUrl || ""} alt="" />
-      </div>
+      <div
+        style={{
+          backgroundImage: `url(${imageUrl})`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "50% 50%",
+          backgroundSize: "contain"
+        }}
+        className={`product-img ${isProductNotFetched && Classes.SKELETON}`}
+      />
       <H3
         className={`product-title ${isProductNotFetched && Classes.SKELETON}`}
       >
         {name}
       </H3>
-      <p className={`product-brand ${isProductNotFetched && Classes.SKELETON}`}>{brand}</p>
+      <p className={`product-brand ${isProductNotFetched && Classes.SKELETON}`}>
+        {brand}
+      </p>
     </Card>
   );
 };

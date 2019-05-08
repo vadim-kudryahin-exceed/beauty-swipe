@@ -22,35 +22,19 @@ class App extends React.Component {
     this.setState({ products: res.data.hits });
   };
 
-  dislike = left => {
+  dislike = () => {
     this.setState(({ dislikesCount }) => ({
       dislikesCount: dislikesCount + 1
     }));
-    left();
   };
 
-  like = right => {
+  like = () => {
     this.setState(({ likesCount }) => ({
       likesCount: likesCount + 1
     }));
-    right();
   };
 
-  renderButtons = ({ left, right }) => {
-    const { dislikesCount, likesCount } = this.state;
-    return (
-      <div className="buttons">
-        <Button icon="thumbs-down" onClick={() => this.dislike(left)}>
-          {`(${dislikesCount})`}
-        </Button>
-        <Button icon="thumbs-up" onClick={() => this.like(right)}>
-          {`(${likesCount})`}
-        </Button>
-      </div>
-    );
-  };
-
-  saveResult = () => {
+  onAfterSwipe = () => {
     this.setState(({ products }) => ({
       products: products.slice(1, products.length)
     }));
@@ -62,13 +46,34 @@ class App extends React.Component {
     }
   };
 
+  onSwipe = (e) => (e === "right" ? this.like() : this.dislike());
+
+  renderButtons = ({ left, right }) => {
+    const { dislikesCount, likesCount } = this.state;
+    return (
+      <div className="buttons">
+        <Button icon="thumbs-down" onClick={left}>
+          {`(${dislikesCount})`}
+        </Button>
+        <Button icon="thumbs-up" onClick={right}>
+          {`(${likesCount})`}
+        </Button>
+      </div>
+    );
+  };
+
   render() {
     const { products } = this.state;
-    console.log("STATE", this.state);
 
     return (
       <div className="bp3-light">
-        <Swipeable buttons={this.renderButtons} onAfterSwipe={this.saveResult}>
+        <Swipeable
+          buttons={this.renderButtons}
+          onAfterSwipe={this.onAfterSwipe}
+          onSwipe={this.onSwipe}
+          limit={300}
+          offset={150}
+        >
           <Product currentProduct={products && products[0]} />
         </Swipeable>
       </div>

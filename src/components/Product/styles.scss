@@ -1,17 +1,19 @@
 .product {
-    min-width: 500px;
+    width: 500px;
     height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    cursor: grab;
+
+    &:active {
+        cursor: grabbing;
+    }
 
     &-img {
         width: 100%;
         height: 80%;
 
-        img {
-            height: 100%;
-        }
     }
 
     &-title {
