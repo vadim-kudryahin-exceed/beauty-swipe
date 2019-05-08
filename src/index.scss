@@ -33,4 +33,20 @@ code {
   width: 100%;
   display: flex;
   justify-content: space-around;
+  margin-top: 20px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+
+  &-left-icon {
+    margin-right: 50px;
+    opacity: 0.5;
+  }
+
+  &-right-icon {
+    margin-left: 50px;
+    opacity: 0.5;
+  }
 }

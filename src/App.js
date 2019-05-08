@@ -2,13 +2,14 @@ import React from "react";
 import axios from "axios";
 import Product from "./components/Product";
 import Swipeable from "react-swipy";
-import { Button } from "@blueprintjs/core";
+import { Button, Icon } from "@blueprintjs/core";
 
 class App extends React.Component {
   state = {
     products: null,
     likesCount: 0,
-    dislikesCount: 0
+    dislikesCount: 0,
+    sideToSwipe: null
   };
 
   async componentDidMount() {
@@ -46,7 +47,14 @@ class App extends React.Component {
     }
   };
 
-  onSwipe = (e) => (e === "right" ? this.like() : this.dislike());
+  onSwipe = e => {
+    if (e === "right") {
+      this.like()
+    } else {
+      this.dislike()
+    }
+    this.setState({ sideToSwipe: e });
+  };
 
   renderButtons = ({ left, right }) => {
     const { dislikesCount, likesCount } = this.state;
@@ -63,19 +71,35 @@ class App extends React.Component {
   };
 
   render() {
-    const { products } = this.state;
+    const { products, sideToSwipe } = this.state;
 
     return (
-      <div className="bp3-light">
-        <Swipeable
-          buttons={this.renderButtons}
-          onAfterSwipe={this.onAfterSwipe}
-          onSwipe={this.onSwipe}
-          limit={300}
-          offset={150}
-        >
-          <Product currentProduct={products && products[0]} />
-        </Swipeable>
+      <div className="container">
+        <Icon
+          className="container-left-icon"
+          icon="thumbs-down"
+          iconSize={60}
+          htmlTitle="Dislike"
+          intent={sideToSwipe === "left" ? "danger" : "none"}
+        />
+        <div>
+          <Swipeable
+            buttons={this.renderButtons}
+            onAfterSwipe={this.onAfterSwipe}
+            onSwipe={this.onSwipe}
+            limit={300}
+            offset={150}
+          >
+            <Product currentProduct={products && products[0]} />
+          </Swipeable>
+        </div>
+        <Icon
+          className="container-right-icon"
+          icon="thumbs-up"
+          iconSize={60}
+          htmlTitle="Like"
+          intent={sideToSwipe === "right" ? "success" : "none"}
+        />
       </div>
     );
   }

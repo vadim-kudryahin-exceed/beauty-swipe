@@ -6,7 +6,7 @@ const Product = ({ currentProduct }) => {
   const { imageUrl, name, brand } = currentProduct || {};
   const isProductNotFetched = !currentProduct;
   return (
-    <Card className={`product`} elevation={3}>
+    <Card className={`product`} elevation={2}>
       <div
         style={{
           backgroundImage: `url(${imageUrl})`,
