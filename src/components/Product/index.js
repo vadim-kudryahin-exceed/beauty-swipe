@@ -1,16 +1,22 @@
-import React from 'react';
-import { Card, Classes } from "@blueprintjs/core";
+import React from "react";
+import { Card, Classes, H3 } from "@blueprintjs/core";
 import "./styles.scss";
 
 const Product = ({ currentProduct }) => {
-    console.log(currentProduct);
-    //const loading = currentProduct.productId;
-    if (!currentProduct) return null;
-    
-    return (
-    <Card className={`product`}>
-    <img width="100" height="100" src={currentProduct.imageUrl} alt=""></img>
+  const { imageUrl, name, brand } = currentProduct || {};
+  const isProductNotFetched = !currentProduct;
+  return (
+    <Card className={`product`} elevation={3}>
+      <div className={`product-img ${isProductNotFetched && Classes.SKELETON}`}>
+        <img src={imageUrl || ""} alt="" />
+      </div>
+      <H3
+        className={`product-title ${isProductNotFetched && Classes.SKELETON}`}
+      >
+        {name}
+      </H3>
+      <p className={`product-brand ${isProductNotFetched && Classes.SKELETON}`}>{brand}</p>
     </Card>
-)
-    }
+  );
+};
 export default Product;

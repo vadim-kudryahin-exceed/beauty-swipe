@@ -1,5 +1,24 @@
 .product {
-    width: 500px;
-    height: 500px;
-    border: 1px solid red;
+    min-width: 500px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &-img {
+        width: 100%;
+        height: 80%;
+
+        img {
+            height: 100%;
+        }
+    }
+
+    &-title {
+        height: 30px;
+    }
+
+    &-brand {
+        height: 30px;
+    }
 }
