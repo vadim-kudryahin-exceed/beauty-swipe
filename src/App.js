@@ -3,12 +3,16 @@ import axios from "axios";
 import Product from "./components/Product";
 import Swipeable from "react-swipy";
 import { Button, Icon } from "@blueprintjs/core";
+import { connect } from "react-redux";
+import {
+  likeProduct,
+  dislikeProduct,
+  addProducts,
+  refreshProducts
+} from "./redux/actions";
 
 class App extends React.Component {
   state = {
-    products: null,
-    likesCount: 0,
-    dislikesCount: 0,
     sideToSwipe: null
   };
 
@@ -20,27 +24,13 @@ class App extends React.Component {
     const res = await axios.get(
       "https://ycl641scac.execute-api.us-west-2.amazonaws.com/staging/products"
     );
-    this.setState({ products: res.data.hits });
-  };
-
-  dislike = () => {
-    this.setState(({ dislikesCount }) => ({
-      dislikesCount: dislikesCount + 1
-    }));
-  };
-
-  like = () => {
-    this.setState(({ likesCount }) => ({
-      likesCount: likesCount + 1
-    }));
+    this.props.addProducts(res.data.hits);
   };
 
   onAfterSwipe = () => {
-    this.setState(({ products }) => ({
-      products: products.slice(1, products.length)
-    }));
+    this.props.refreshProducts();
 
-    const { products } = this.state;
+    const { products } = this.props;
 
     if (!products.length) {
       this.fetchProducts();
@@ -49,15 +39,15 @@ class App extends React.Component {
 
   onSwipe = e => {
     if (e === "right") {
-      this.like()
+      this.props.like();
     } else {
-      this.dislike()
+      this.props.dislike();
     }
     this.setState({ sideToSwipe: e });
   };
 
   renderButtons = ({ left, right }) => {
-    const { dislikesCount, likesCount } = this.state;
+    const { dislikesCount, likesCount } = this.props;
     return (
       <div className="buttons">
         <Button icon="thumbs-down" onClick={left}>
@@ -71,7 +61,8 @@ class App extends React.Component {
   };
 
   render() {
-    const { products, sideToSwipe } = this.state;
+    const { sideToSwipe } = this.state;
+    const { products } = this.props;
 
     return (
       <div className="container">
@@ -105,4 +96,32 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    like: () => {
+      dispatch(likeProduct());
+    },
+    dislike: () => {
+      dispatch(dislikeProduct());
+    },
+    addProducts: products => {
+      dispatch(addProducts(products));
+    },
+    refreshProducts: () => {
+      dispatch(refreshProducts());
+    }
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    likesCount: state.likesCount,
+    dislikesCount: state.dislikesCount,
+    products: state.products
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
