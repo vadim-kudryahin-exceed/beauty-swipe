@@ -1,30 +1,33 @@
 .product {
-    width: 500px;
-    height: 600px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: grab;
+  max-width: 500px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-basis: auto;
+  cursor: grab;
+  z-index: 20;
 
-    &:active {
-        cursor: grabbing;
-    }
+  &:active {
+    cursor: grabbing;
+  }
 
-    &:hover {
-        box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 2px 4px rgba(16, 22, 26, 0.2), 0 8px 24px rgba(16, 22, 26, 0.2);
-    }
+  &:hover {
+    box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 2px 4px rgba(16, 22, 26, 0.2),
+      0 8px 24px rgba(16, 22, 26, 0.2);
+  }
 
-    &-img {
-        width: 100%;
-        height: 80%;
+  &-img {
+    width: 100%;
+    height: 400px;
+  }
 
-    }
+  &-title {
+    margin-top: 10px;
+  }
 
-    &-title {
-        height: 30px;
-    }
-
-    &-brand {
-        height: 30px;
-    }
+  &-brand {
+    margin-top: 10px;
+    height: 30px;
+  }
 }

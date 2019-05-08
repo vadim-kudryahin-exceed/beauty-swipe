@@ -73,7 +73,7 @@ class App extends React.Component {
           htmlTitle="Dislike"
           intent={sideToSwipe === "left" ? "danger" : "none"}
         />
-        <div>
+        <div className="container-reverse">
           <Swipeable
             buttons={this.renderButtons}
             onAfterSwipe={this.onAfterSwipe}
